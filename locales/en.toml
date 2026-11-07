@@ -1,0 +1,103 @@
+# English strings. Every key here must also exist in nl.toml (checked at startup).
+# Use {name} placeholders for variables.
+# Lines marked TODO are placeholder copy for you to replace.
+
+[meta]
+site_title = "TODO: Your Name"
+
+[nav]
+home = "~/portfolio"
+projects = "Projects"
+skills = "Skills"
+about = "About"
+cv = "CV"
+contact = "Contact"
+language = "Language"
+
+[footer]
+copyright = "© {year} {name}"
+
+[common]
+read_more = "Read more"
+back_to_projects = "← All projects"
+source = "Source"
+demo = "Live demo"
+view_all_projects = "All projects"
+view_all_skills = "All skills"
+
+[home]
+page_title = "Home"
+role = "Computing Science student"
+tagline = "TODO"
+cta_projects = "View projects"
+cta_contact = "Get in touch"
+featured = "Featured projects"
+skills_heading = "What I work with"
+
+[projects]
+page_title = "Projects"
+heading = "Projects"
+intro = "A selection of things I've built."
+tags = "Tags"
+
+[projects.project-one]
+title = "Project one"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[projects.project-two]
+title = "Project two"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[projects.project-three]
+title = "Project three"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[skills]
+page_title = "Skills"
+heading = "Skills & technologies"
+intro = "What I know and how well. The meter shows my confidence, not a formal rating."
+legend = "Legend"
+
+[skills.categories]
+languages = "Languages"
+technologies = "Technologies"
+
+[skills.levels]
+confident = "Confident"
+comfortable = "Comfortable"
+learning = "Learning"
+
+[about]
+page_title = "About"
+heading = "About me"
+intro = "TODO: A short personal introduction: who you are, where you're from, what drives you."
+study_heading = "Studies"
+study = "TODO: Bachelor Computing Science at <university>, expected graduation <year>. Thesis topic, relevant courses."
+interests_heading = "Interests"
+interests = "TODO: What you like outside of coursework: open source, Neovim, Rust, ..."
+
+[cv]
+page_title = "CV"
+heading = "Curriculum vitae"
+education = "Education"
+experience = "Experience"
+education_item = "TODO: BSc Computing Science, <university> (<start> – <year>)"
+experience_item = "TODO: Role, company, period, one line about what you did"
+download = "Download PDF"
+
+[contact]
+page_title = "Contact"
+heading = "Contact"
+intro = "I'm looking for a job or internship. The quickest way to reach me is email."
+email = "Email"
+github = "GitHub"
+linkedin = "LinkedIn"
+
+[not_found]
+page_title = "Not found"
+heading = "404"
+text = "That page doesn't exist."
+back = "Back home"
