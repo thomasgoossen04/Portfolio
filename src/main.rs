@@ -5,7 +5,7 @@ mod site;
 mod theme;
 mod ui;
 
-use rocket::fs::{FileServer, relative};
+use rocket::fs::FileServer;
 use rocket::http::CookieJar;
 use rocket::response::Redirect;
 
@@ -41,6 +41,8 @@ impl<'r> rocket::request::FromRequest<'r> for Referer {
     }
 }
 
+/// `static/` is resolved relative to the working directory (the repo root in dev,
+/// the install dir under systemd), not baked in at compile time.
 #[launch]
 fn launch_app() -> _ {
     content::load();
@@ -48,6 +50,6 @@ fn launch_app() -> _ {
     rocket::build()
         .mount("/", pages::routes())
         .mount("/", routes![set_lang])
-        .mount("/static", FileServer::from(relative!("static")))
+        .mount("/static", FileServer::from("static"))
         .register("/", catchers![pages::not_found])
 }
