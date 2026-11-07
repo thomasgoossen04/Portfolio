@@ -1,0 +1,21 @@
+# Project data. Titles/summaries/bodies are translated in locales/*.toml under
+#   projects.<slug>.title / .summary / .body
+# TODO: replace the placeholder projects with real ones.
+# To add a project: add an entry here and the three strings in BOTH locale files.
+
+[[project]]
+slug = "project-one"
+featured = true
+tags = ["TODO"]
+# repo = "https://github.com/todo/project"   # optional
+# demo = "https://example.com"                          # optional
+
+[[project]]
+slug = "project-two"
+featured = true
+tags = ["TODO"]
+
+[[project]]
+slug = "project-three"
+featured = true
+tags = ["TODO"]

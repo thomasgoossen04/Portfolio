@@ -1,0 +1,5 @@
+# Personal details used across pages (example data; the real site uses a private content/ dir).
+name = "TODO: Your Name"
+email = "todo@example.com"
+github = "https://github.com/todo"
+linkedin = "https://www.linkedin.com/in/todo"

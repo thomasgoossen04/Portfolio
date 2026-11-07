@@ -17,7 +17,7 @@ fn index(i18n: I18n) -> Markup {
         div.stack {
             section.hero {
                 p.dim { "$ whoami" }
-                h1 { (site::NAME) }
+                h1 { (site::name()) }
                 p.role { (i18n.t("home.role")) }
                 p { (i18n.t("home.tagline")) }
                 div.row {
@@ -120,9 +120,9 @@ fn contact(i18n: I18n) -> Markup {
             h1 { (i18n.t("contact.heading")) }
             p { (i18n.t("contact.intro")) }
             ul.links {
-                li { span.dim { (i18n.t("contact.email")) ": " } a href={ "mailto:" (site::EMAIL) } { (site::EMAIL) } }
-                li { span.dim { (i18n.t("contact.github")) ": " } a href=(site::GITHUB) { (site::GITHUB) } }
-                li { span.dim { (i18n.t("contact.linkedin")) ": " } a href=(site::LINKEDIN) { (site::LINKEDIN) } }
+                li { span.dim { (i18n.t("contact.email")) ": " } a href={ "mailto:" (site::email()) } { (site::email()) } }
+                li { span.dim { (i18n.t("contact.github")) ": " } a href=(site::github()) { (site::github()) } }
+                li { span.dim { (i18n.t("contact.linkedin")) ": " } a href=(site::linkedin()) { (site::linkedin()) } }
             }
         }
     })

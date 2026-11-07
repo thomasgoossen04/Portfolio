@@ -1,4 +1,5 @@
-//! Structured site content (projects, skills), embedded from `content/*.toml`.
+//! Structured site content (projects, skills), embedded from `content/*.toml`
+//! (or `examples/content/` when `content/` is absent, see build.rs).
 //! User-facing text for these lives in the locale files, keyed by slug / id.
 
 use std::sync::OnceLock;
@@ -73,9 +74,9 @@ static CONTENT: OnceLock<Content> = OnceLock::new();
 
 /// Parse embedded content; panics on malformed files, so call once at startup.
 pub fn load() {
-    let projects: ProjectFile = toml::from_str(include_str!("../content/projects.toml"))
+    let projects: ProjectFile = toml::from_str(include_str!(concat!(env!("CONTENT_DIR"), "/projects.toml")))
         .unwrap_or_else(|e| panic!("content/projects.toml: {e}"));
-    let skills: SkillFile = toml::from_str(include_str!("../content/skills.toml"))
+    let skills: SkillFile = toml::from_str(include_str!(concat!(env!("CONTENT_DIR"), "/skills.toml")))
         .unwrap_or_else(|e| panic!("content/skills.toml: {e}"));
     let _ = CONTENT.set(Content { projects: projects.project, skills: skills.category });
 }

@@ -1,0 +1,40 @@
+# Persoonlijke teksten (Nederlands). Wordt bij het opstarten samengevoegd met locales/nl.toml.
+# Moet dezelfde sleutels bevatten als en.toml.
+
+[meta]
+site_title = "TODO: Your Name"
+
+[home]
+role = "Student Computing Science"
+tagline = "TODO: Eén zin over wat je bouwt en waar je naar op zoek bent, bijv. \"Rond dit jaar mijn bachelor af en op zoek naar mijn eerste functie als software engineer.\""
+
+[projects.project-one]
+title = "Project één"
+summary = "TODO: Samenvatting in één regel."
+body = "TODO: Probleem, aanpak, jouw rol, resultaat."
+
+[projects.project-two]
+title = "Project twee"
+summary = "TODO: Samenvatting in één regel."
+body = "TODO: Probleem, aanpak, jouw rol, resultaat."
+
+[projects.project-three]
+title = "Project drie"
+summary = "TODO: Samenvatting in één regel."
+body = "TODO: Probleem, aanpak, jouw rol, resultaat."
+
+[skills.categories]
+languages = "Talen"
+technologies = "Technologieën"
+
+[about]
+intro = "TODO: Een korte persoonlijke introductie: wie je bent, waar je vandaan komt, wat je drijft."
+study = "TODO: Bachelor Computing Science aan <universiteit>, verwachte afstudeerdatum <jaar>. Scriptieonderwerp, relevante vakken."
+interests = "TODO: Wat je naast je studie leuk vindt: open source, Neovim, Rust, ..."
+
+[cv]
+education_item = "TODO: BSc Computing Science, <universiteit> (<start> – <jaar>)"
+experience_item = "TODO: Functie, bedrijf, periode, één regel over wat je deed"
+
+[contact]
+intro = "Ik zoek een baan of stage. Het snelst bereik je me via e-mail."

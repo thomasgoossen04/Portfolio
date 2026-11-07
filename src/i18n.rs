@@ -30,10 +30,19 @@ impl Lang {
         Lang::ALL.into_iter().find(|l| l.code().eq_ignore_ascii_case(s.trim()))
     }
 
+    /// UI strings (public, `locales/`).
     fn source(self) -> &'static str {
         match self {
             Lang::En => include_str!("../locales/en.toml"),
             Lang::Nl => include_str!("../locales/nl.toml"),
+        }
+    }
+
+    /// Personal copy (`content/locales/`, see build.rs), merged on top of the UI strings.
+    fn content_source(self) -> &'static str {
+        match self {
+            Lang::En => include_str!(concat!(env!("CONTENT_DIR"), "/locales/en.toml")),
+            Lang::Nl => include_str!(concat!(env!("CONTENT_DIR"), "/locales/nl.toml")),
         }
     }
 
@@ -70,13 +79,24 @@ static STORE: OnceLock<Store> = OnceLock::new();
 pub fn load() {
     let mut map = HashMap::new();
     for lang in Lang::ALL {
-        let table: toml::Table = lang
-            .source()
-            .parse()
-            .unwrap_or_else(|e| panic!("locales/{}.toml: {e}", lang.code()));
+        let code = lang.code();
+        let table: toml::Table =
+            lang.source().parse().unwrap_or_else(|e| panic!("locales/{code}.toml: {e}"));
         let mut flat = Flat::new();
         flatten("", &table, &mut flat);
-        map.insert(lang.code(), flat);
+
+        let table: toml::Table = lang
+            .content_source()
+            .parse()
+            .unwrap_or_else(|e| panic!("content/locales/{code}.toml: {e}"));
+        let mut personal = Flat::new();
+        flatten("", &table, &mut personal);
+        for (key, value) in personal {
+            if flat.insert(key.clone(), value).is_some() {
+                panic!("`{key}` is defined in both locales/{code}.toml and content/locales/{code}.toml");
+            }
+        }
+        map.insert(code, flat);
     }
 
     let reference = &map[Lang::En.code()];
@@ -88,7 +108,7 @@ pub fn load() {
         extra.sort();
         if !missing.is_empty() || !extra.is_empty() {
             panic!(
-                "locales/{}.toml is out of sync with en.toml\n  missing: {missing:?}\n  extra: {extra:?}",
+                "locales/{}.toml (+ content/locales) is out of sync with en.toml\n  missing: {missing:?}\n  extra: {extra:?}",
                 lang.code()
             );
         }

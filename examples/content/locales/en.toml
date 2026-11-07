@@ -1,0 +1,40 @@
+# Personal copy (English). Merged with locales/en.toml at startup; keys must not overlap.
+# Must define the same keys as nl.toml.
+
+[meta]
+site_title = "TODO: Your Name"
+
+[home]
+role = "Computing Science student"
+tagline = "TODO"
+
+[projects.project-one]
+title = "Project one"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[projects.project-two]
+title = "Project two"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[projects.project-three]
+title = "Project three"
+summary = "TODO: One-line summary."
+body = "TODO: Problem, approach, your role, outcome."
+
+[skills.categories]
+languages = "Languages"
+technologies = "Technologies"
+
+[about]
+intro = "TODO: A short personal introduction: who you are, where you're from, what drives you."
+study = "TODO: Bachelor Computing Science at <university>, expected graduation <year>. Thesis topic, relevant courses."
+interests = "TODO: What you like outside of coursework: open source, Neovim, Rust, ..."
+
+[cv]
+education_item = "TODO: BSc Computing Science, <university> (<start> – <year>)"
+experience_item = "TODO: Role, company, period, one line about what you did"
+
+[contact]
+intro = "I'm looking for a job or internship. The quickest way to reach me is email."

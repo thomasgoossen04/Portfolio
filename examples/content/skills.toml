@@ -1,0 +1,23 @@
+# Skills data. To add a skill: append an entry to `items` (or a whole `[[category]]`).
+#
+#   level: "confident" | "comfortable" | "learning"
+#
+# Category titles and level labels are translated in locales/*.toml:
+#   skills.categories.<id>   skills.levels.<level>
+# Skill names themselves are not translated.
+# TODO: replace the placeholder entries below with your real skills.
+
+[[category]]
+id = "languages"
+items = [
+  { name = "TODO: language 1", level = "confident" },
+  { name = "TODO: language 2", level = "comfortable" },
+  { name = "TODO: language 3", level = "learning" },
+]
+
+[[category]]
+id = "technologies"
+items = [
+  { name = "TODO: technology 1", level = "comfortable" },
+  { name = "TODO: technology 2", level = "learning" },
+]

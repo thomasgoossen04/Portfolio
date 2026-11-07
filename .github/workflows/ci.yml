@@ -1,0 +1,25 @@
+# Public CI for the GitHub mirror. (The private repo deploys via .forgejo/, which
+# Forgejo prefers over .github/, so this file is ignored there.)
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --locked
+      - run: cargo test --locked
+      # The app validates locales/content at startup, so booting it catches mismatches.
+      - name: Smoke test
+        run: |
+          ROCKET_PORT=8123 ./target/debug/portfolio &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8123/ >/dev/null && break; sleep 0.5; done
+          for path in / /projects /skills /about /cv /contact /static/theme.css; do
+            curl -fsS "http://127.0.0.1:8123$path" >/dev/null
+          done

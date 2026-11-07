@@ -1,9 +1,6 @@
 # Nederlandse teksten. Elke sleutel hier moet ook in en.toml staan (wordt bij het opstarten gecontroleerd).
 # Gebruik {naam}-placeholders voor variabelen.
-# Regels met TODO zijn voorlopige teksten die je moet vervangen.
-
-[meta]
-site_title = "TODO: Your Name"
+# Persoonlijke teksten (bio, projectteksten, ...) staan in content/locales/nl.toml.
 
 [nav]
 home = "~/portfolio"
@@ -27,8 +24,6 @@ view_all_skills = "Alle vaardigheden"
 
 [home]
 page_title = "Home"
-role = "Student Computing Science"
-tagline = "TODO: Eén zin over wat je bouwt en waar je naar op zoek bent, bijv. \"Rond dit jaar mijn bachelor af en op zoek naar mijn eerste functie als software engineer.\""
 cta_projects = "Bekijk projecten"
 cta_contact = "Neem contact op"
 featured = "Uitgelichte projecten"
@@ -40,30 +35,11 @@ heading = "Projecten"
 intro = "Een selectie van dingen die ik heb gebouwd."
 tags = "Tags"
 
-[projects.project-one]
-title = "Project één"
-summary = "TODO: Samenvatting in één regel."
-body = "TODO: Probleem, aanpak, jouw rol, resultaat."
-
-[projects.project-two]
-title = "Project twee"
-summary = "TODO: Samenvatting in één regel."
-body = "TODO: Probleem, aanpak, jouw rol, resultaat."
-
-[projects.project-three]
-title = "Project drie"
-summary = "TODO: Samenvatting in één regel."
-body = "TODO: Probleem, aanpak, jouw rol, resultaat."
-
 [skills]
 page_title = "Vaardigheden"
 heading = "Vaardigheden & technologieën"
 intro = "Wat ik ken en hoe goed. De meter toont mijn zelfvertrouwen, geen formele beoordeling."
 legend = "Legenda"
-
-[skills.categories]
-languages = "Talen"
-technologies = "Technologieën"
 
 [skills.levels]
 confident = "Zelfverzekerd"
@@ -73,25 +49,19 @@ learning = "Aan het leren"
 [about]
 page_title = "Over mij"
 heading = "Over mij"
-intro = "TODO: Een korte persoonlijke introductie: wie je bent, waar je vandaan komt, wat je drijft."
 study_heading = "Studie"
-study = "TODO: Bachelor Computing Science aan <universiteit>, verwachte afstudeerdatum <jaar>. Scriptieonderwerp, relevante vakken."
 interests_heading = "Interesses"
-interests = "TODO: Wat je naast je studie leuk vindt: open source, Neovim, Rust, ..."
 
 [cv]
 page_title = "CV"
 heading = "Curriculum vitae"
 education = "Opleiding"
 experience = "Ervaring"
-education_item = "TODO: BSc Computing Science, <universiteit> (<start> – <jaar>)"
-experience_item = "TODO: Functie, bedrijf, periode, één regel over wat je deed"
 download = "Download PDF"
 
 [contact]
 page_title = "Contact"
 heading = "Contact"
-intro = "Ik zoek een baan of stage. Het snelst bereik je me via e-mail."
 email = "E-mail"
 github = "GitHub"
 linkedin = "LinkedIn"

@@ -35,7 +35,7 @@ pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
                 main.container { (content) }
                 footer.footer {
                     div.container {
-                        (i18n.t_with("footer.copyright", &[("year", "2026"), ("name", crate::site::NAME)]))
+                        (i18n.t_with("footer.copyright", &[("year", "2026"), ("name", crate::site::name())]))
                     }
                 }
             }

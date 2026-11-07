@@ -45,6 +45,7 @@ impl<'r> rocket::request::FromRequest<'r> for Referer {
 /// the install dir under systemd), not baked in at compile time.
 #[launch]
 fn launch_app() -> _ {
+    site::load();
     content::load();
     i18n::load();
     rocket::build()
