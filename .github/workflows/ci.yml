@@ -20,6 +20,6 @@ jobs:
         run: |
           ROCKET_PORT=8123 ./target/debug/portfolio &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8123/ >/dev/null && break; sleep 0.5; done
-          for path in / /projects /skills /about /cv /contact /static/theme.css; do
+          for path in / /projects /skills /about /cv /contact /edit/editor.js /static/theme.css; do
             curl -fsS "http://127.0.0.1:8123$path" >/dev/null
           done

@@ -17,6 +17,16 @@ cargo run
 Without a `content/` directory, the build falls back to the placeholder data in
 [`examples/content/`](examples/content), so the site works out of the box.
 
+### Editing texts
+
+Debug builds (`cargo run`) come with an in-page text editor. Hover over any text
+and click the ✎ button that appears (or Alt+click the text) to edit the English
+and Dutch versions right there, with a live preview on the page. Saving writes
+into the matching `locales/*.toml` or `content/locales/*.toml` file, keeping
+comments and layout. Texts that aren't visible on the page, like the page title,
+are listed under "hidden texts" in the bottom-right corner, where you can also
+switch edit mode off. Release builds don't include the editor.
+
 ## Layout
 
 | Path                 | What                                                         |

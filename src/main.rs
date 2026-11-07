@@ -1,4 +1,6 @@
 mod content;
+#[cfg(debug_assertions)]
+mod editor;
 mod i18n;
 mod pages;
 mod site;
@@ -48,9 +50,13 @@ fn launch_app() -> _ {
     site::load();
     content::load();
     i18n::load();
-    rocket::build()
+    let app = rocket::build()
         .mount("/", pages::routes())
         .mount("/", routes![set_lang])
         .mount("/static", FileServer::from("static"))
-        .register("/", catchers![pages::not_found])
+        .register("/", catchers![pages::not_found]);
+    // Dev-only in-page text editor (see editor.rs); not in release builds.
+    #[cfg(debug_assertions)]
+    let app = app.mount("/", editor::routes());
+    app
 }

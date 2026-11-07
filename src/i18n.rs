@@ -3,7 +3,7 @@
 //! `{name}` placeholders are filled via `i18n.t_with("key", &[("name", "value")])`.
 
 use std::collections::HashMap;
-use std::sync::OnceLock;
+use std::sync::{OnceLock, RwLock};
 
 use rocket::http::{Cookie, CookieJar, SameSite};
 use rocket::request::{FromRequest, Outcome, Request};
@@ -57,43 +57,84 @@ impl Lang {
 
 type Flat = HashMap<String, String>;
 
-fn flatten(prefix: &str, table: &toml::Table, out: &mut Flat) {
+fn flatten(prefix: &str, table: &toml::Table, out: &mut Flat) -> Result<(), String> {
     for (k, v) in table {
         let key = if prefix.is_empty() { k.clone() } else { format!("{prefix}.{k}") };
         match v {
             toml::Value::String(s) => {
                 out.insert(key, s.clone());
             }
-            toml::Value::Table(t) => flatten(&key, t, out),
-            other => panic!("locale key `{key}` must be a string or table, got {other}"),
+            toml::Value::Table(t) => flatten(&key, t, out)?,
+            other => return Err(format!("locale key `{key}` must be a string or table, got {other}")),
         }
     }
+    Ok(())
 }
 
 struct Store(HashMap<&'static str, Flat>);
 
-static STORE: OnceLock<Store> = OnceLock::new();
+/// A `RwLock` so the dev editor can swap in freshly saved strings without a restart.
+static STORE: OnceLock<RwLock<Store>> = OnceLock::new();
 
 /// Parse all locale files and verify they define the same keys. Panics on problems,
 /// so call it once at startup.
 pub fn load() {
+    let store = build(|lang| (lang.source().to_string(), lang.content_source().to_string()))
+        .unwrap_or_else(|e| panic!("{e}"));
+    let _ = STORE.set(RwLock::new(store));
+}
+
+/// Re-read the locale files from disk (dev editor only). On error the old strings stay.
+#[cfg(debug_assertions)]
+pub fn reload_from_disk() -> Result<(), String> {
+    let mut files = HashMap::new();
+    for lang in Lang::ALL {
+        let read = |path: String| std::fs::read_to_string(&path).map_err(|e| format!("{path}: {e}"));
+        let ui = read(locale_path(LocaleFile::Ui, lang))?;
+        let content = read(locale_path(LocaleFile::Content, lang))?;
+        files.insert(lang.code(), (ui, content));
+    }
+    let store = build(|lang| files[lang.code()].clone())?;
+    *STORE.get().expect("i18n::load() not called").write().unwrap() = store;
+    Ok(())
+}
+
+/// The two kinds of locale file: public UI strings and personal copy.
+#[cfg(debug_assertions)]
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum LocaleFile {
+    Ui,
+    Content,
+}
+
+/// On-disk path of a locale file (absolute, fixed at compile time; fine for dev).
+#[cfg(debug_assertions)]
+pub fn locale_path(file: LocaleFile, lang: Lang) -> String {
+    match file {
+        LocaleFile::Ui => format!("{}/locales/{}.toml", env!("CARGO_MANIFEST_DIR"), lang.code()),
+        LocaleFile::Content => format!("{}/locales/{}.toml", env!("CONTENT_DIR"), lang.code()),
+    }
+}
+
+/// `sources(lang)` returns the (UI strings, personal copy) TOML text for that language.
+fn build(sources: impl Fn(Lang) -> (String, String)) -> Result<Store, String> {
     let mut map = HashMap::new();
     for lang in Lang::ALL {
         let code = lang.code();
-        let table: toml::Table =
-            lang.source().parse().unwrap_or_else(|e| panic!("locales/{code}.toml: {e}"));
+        let (ui, content) = sources(lang);
+        let table: toml::Table = ui.parse().map_err(|e| format!("locales/{code}.toml: {e}"))?;
         let mut flat = Flat::new();
-        flatten("", &table, &mut flat);
+        flatten("", &table, &mut flat)?;
 
-        let table: toml::Table = lang
-            .content_source()
-            .parse()
-            .unwrap_or_else(|e| panic!("content/locales/{code}.toml: {e}"));
+        let table: toml::Table =
+            content.parse().map_err(|e| format!("content/locales/{code}.toml: {e}"))?;
         let mut personal = Flat::new();
-        flatten("", &table, &mut personal);
+        flatten("", &table, &mut personal)?;
         for (key, value) in personal {
             if flat.insert(key.clone(), value).is_some() {
-                panic!("`{key}` is defined in both locales/{code}.toml and content/locales/{code}.toml");
+                return Err(format!(
+                    "`{key}` is defined in both locales/{code}.toml and content/locales/{code}.toml"
+                ));
             }
         }
         map.insert(code, flat);
@@ -107,21 +148,24 @@ pub fn load() {
         missing.sort();
         extra.sort();
         if !missing.is_empty() || !extra.is_empty() {
-            panic!(
+            return Err(format!(
                 "locales/{}.toml (+ content/locales) is out of sync with en.toml\n  missing: {missing:?}\n  extra: {extra:?}",
                 lang.code()
-            );
+            ));
         }
     }
     // Keys required by structured content (projects, skills) must exist in every language.
     for key in crate::content::required_locale_keys() {
         for lang in Lang::ALL {
             if !map[lang.code()].contains_key(&key) {
-                panic!("locales/{}.toml is missing `{key}` (required by content/*.toml)", lang.code());
+                return Err(format!(
+                    "locales/{}.toml is missing `{key}` (required by content/*.toml)",
+                    lang.code()
+                ));
             }
         }
     }
-    let _ = STORE.set(Store(map));
+    Ok(Store(map))
 }
 
 /// Per-request translator. Also usable as a Rocket request guard.
@@ -132,8 +176,13 @@ pub struct I18n {
 
 impl I18n {
     pub fn t(&self, key: &str) -> String {
-        match STORE.get().and_then(|s| s.0[self.lang.code()].get(key)) {
-            Some(s) => s.clone(),
+        let found = STORE.get().and_then(|s| s.read().unwrap().0[self.lang.code()].get(key).cloned());
+        match found {
+            // Debug builds: tag the text with its key for the in-page editor (editor.rs).
+            #[cfg(debug_assertions)]
+            Some(s) => crate::editor::mark(key, &s),
+            #[cfg(not(debug_assertions))]
+            Some(s) => s,
             None => {
                 eprintln!("missing translation key `{key}` ({})", self.lang.code());
                 format!("[{key}]")

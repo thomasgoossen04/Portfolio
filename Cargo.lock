@@ -722,6 +722,7 @@ dependencies = [
  "rocket",
  "serde",
  "toml",
+ "toml_edit",
 ]
 
 [[package]]

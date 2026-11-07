@@ -14,6 +14,7 @@ pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
                 meta name="viewport" content="width=device-width, initial-scale=1";
                 title { (title) " · " (i18n.t("meta.site_title")) }
                 link rel="stylesheet" href="/static/theme.css";
+                @if cfg!(debug_assertions) { (editor_head()) }
             }
             body {
                 nav.nav {
@@ -41,4 +42,13 @@ pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
             }
         }
     }
+}
+
+#[cfg(debug_assertions)]
+fn editor_head() -> Markup {
+    crate::editor::head()
+}
+#[cfg(not(debug_assertions))]
+fn editor_head() -> Markup {
+    html! {}
 }
