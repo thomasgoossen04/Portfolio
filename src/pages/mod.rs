@@ -36,7 +36,7 @@ fn index(i18n: I18n) -> Markup {
             }
             section.stack {
                 h2 { (i18n.t("home.skills_heading")) }
-                (ui::skills_block(i18n))
+                (ui::skills_block(i18n, true))
                 a href="/skills" { (i18n.t("common.view_all_skills")) " →" }
             }
         }
@@ -69,6 +69,7 @@ fn project_detail(i18n: I18n, slug: &str) -> Option<Markup> {
             div.row {
                 @if let Some(url) = &p.repo { a.btn.ghost href=(url) { (i18n.t("common.source")) } }
                 @if let Some(url) = &p.demo { a.btn href=(url) { (i18n.t("common.demo")) } }
+                @if let Some(url) = &p.store { a.btn href=(url) { (i18n.t("common.app_store")) } }
             }
         }
     }))
@@ -80,7 +81,7 @@ fn skills(i18n: I18n) -> Markup {
         div.stack {
             h1 { (i18n.t("skills.heading")) }
             p.dim { (i18n.t("skills.intro")) }
-            (ui::skills_block(i18n))
+            (ui::skills_block(i18n, false))
         }
     })
 }

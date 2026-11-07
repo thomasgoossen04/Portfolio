@@ -19,6 +19,7 @@ read_more = "Lees meer"
 back_to_projects = "← Alle projecten"
 source = "Broncode"
 demo = "Live demo"
+app_store = "App Store"
 view_all_projects = "Alle projecten"
 view_all_skills = "Alle vaardigheden"
 
