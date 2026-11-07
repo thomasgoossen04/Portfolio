@@ -25,9 +25,9 @@ pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
                         span.dim.push-right { (i18n.t("nav.language")) ":" }
                         @for lang in Lang::ALL {
                             @if lang == i18n.lang {
-                                span { (lang.code().to_uppercase()) }
+                                span.lang-current aria-current="true" { (lang.code().to_uppercase()) }
                             } @else {
-                                a href={ "/lang/" (lang.code()) } { (lang.code().to_uppercase()) }
+                                a.lang-other href={ "/lang/" (lang.code()) } { (lang.code().to_uppercase()) }
                             }
                         }
                     }

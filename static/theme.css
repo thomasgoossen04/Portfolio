@@ -222,6 +222,10 @@ a.card:hover, .card.interactive:hover {
 nav.nav { border-bottom: var(--border-w) solid var(--border); background: var(--bg); }
 nav.nav .container { padding-block: var(--space-3); }
 nav.nav a { text-decoration: none; font-family: var(--font-heading); text-transform: uppercase; }
+/* Language switcher: the active language is highlighted, the other one is muted. */
+nav.nav .lang-current { color: var(--accent); font-family: var(--font-heading); }
+nav.nav a.lang-other { color: var(--fg-dim); }
+nav.nav a.lang-other:hover, nav.nav a.lang-other:focus-visible { color: var(--on-accent); }
 
 footer.footer { border-top: var(--border-w) dashed var(--border); color: var(--fg-dim); }
 
