@@ -1,6 +1,6 @@
 # Skills data. To add a skill: append an entry to `items` (or a whole `[[category]]`).
 #
-#   level: "confident" | "comfortable" | "learning"
+#   level: "confident" | "comfortable" | "beginner" | "learning"
 #
 # Category titles and level labels are translated in locales/*.toml:
 #   skills.categories.<id>   skills.levels.<level>

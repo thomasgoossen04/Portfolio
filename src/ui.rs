@@ -2,7 +2,7 @@
 
 use maud::{Markup, html};
 
-use crate::content::{self, Project};
+use crate::content::{self, Level, Project};
 use crate::i18n::I18n;
 
 pub fn project_card(i18n: I18n, p: &Project) -> Markup {
@@ -20,10 +20,16 @@ pub fn project_card(i18n: I18n, p: &Project) -> Markup {
 
 /// Skill categories with level meters; `home` limits it to categories marked for the home page.
 pub fn skills_block(i18n: I18n, home: bool) -> Markup {
+    let cats: Vec<_> = content::skills().iter().filter(|c| !home || c.home).collect();
+    // With 3+ cards, the longest one spans two rows and the others stack beside it,
+    // so one long list doesn't leave the other cards mostly empty.
+    let tall = (cats.len() >= 3)
+        .then(|| cats.iter().enumerate().max_by_key(|(_, c)| c.items.len()).map(|(i, _)| i))
+        .flatten();
     html! {
-        div.grid.grid-skills {
-            @for cat in content::skills().iter().filter(|c| !home || c.home) {
-                div.card {
+        div.grid.grid-skills.has-tall[tall.is_some()] {
+            @for (idx, cat) in cats.iter().enumerate() {
+                div.card.tall[tall == Some(idx)] {
                     h3 { (i18n.t(&format!("skills.categories.{}", cat.id))) }
                     ul.skills {
                         @for s in &cat.items {
@@ -38,18 +44,49 @@ pub fn skills_block(i18n: I18n, home: bool) -> Markup {
                                 ),
                             };
                             li {
+                                @if let Some(icon) = &s.icon {
+                                    span.skill-icon aria-hidden="true"
+                                        style={ "--icon: url('/static/icons/" (icon) ".svg')" } {}
+                                }
                                 span.skill-name title=(name) { (name) }
                                 span.skill-level {
-                                    span.meter aria-hidden="true" {
-                                        @for i in 0..3 {
-                                            span.block.on[i < s.level.filled()] {}
+                                    @if cat.labels {
+                                        span.meter aria-hidden="true" { (meter_blocks(s.level)) }
+                                        span.dim { (level) }
+                                    } @else {
+                                        span.meter role="img" aria-label=(level) title=(level) {
+                                            (meter_blocks(s.level))
                                         }
                                     }
-                                    span.dim { (level) }
                                 }
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+/// Meter blocks for a level; "learning" draws its filled block striped (in progress).
+fn meter_blocks(level: Level) -> Markup {
+    let wip = level == Level::Learning;
+    html! {
+        @for i in 0..3 {
+            span.block.on[i < level.filled()].wip[wip && i < level.filled()] {}
+        }
+    }
+}
+
+/// One-line key explaining the meter, for cards that hide the level labels.
+pub fn skills_legend(i18n: I18n) -> Markup {
+    html! {
+        div.row.legend.dim {
+            span { (i18n.t("skills.legend")) ":" }
+            @for level in Level::ALL {
+                span.legend-item {
+                    span.meter aria-hidden="true" { (meter_blocks(level)) }
+                    (i18n.t(&format!("skills.levels.{}", level.key())))
                 }
             }
         }

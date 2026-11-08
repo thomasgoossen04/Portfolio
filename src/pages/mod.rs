@@ -81,6 +81,7 @@ fn skills(i18n: I18n) -> Markup {
         div.stack {
             h1 { (i18n.t("skills.heading")) }
             p.dim { (i18n.t("skills.intro")) }
+            (ui::skills_legend(i18n))
             (ui::skills_block(i18n, false))
         }
     })

@@ -242,6 +242,12 @@ nav.nav .container.row { gap: var(--space-4); }
 ul.links { list-style: none; padding: 0; }
 ul.skills { list-style: none; padding: 0; margin: 0; }
 .grid-skills { grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); }
+/* longest card spans two rows, the other cards stack beside it (one column on small screens) */
+.grid-skills.has-tall { grid-template-columns: 1fr; grid-auto-flow: row dense; }
+@media (min-width: 48rem) {
+  .grid-skills.has-tall { grid-template-columns: repeat(2, 1fr); }
+  .grid-skills.has-tall > .tall { grid-row: span 2; }
+}
 ul.skills li {
   display: flex;
   align-items: center;
@@ -254,6 +260,16 @@ ul.skills li {
 /* always one line: long names are truncated (full name in the title tooltip) */
 .skill-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .skill-level { flex: 0 0 auto; display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+/* language/tool icon: the SVG is used as a mask so it takes the dim text color in both themes */
+.skill-icon {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--fg-dim);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+ul.skills li:hover .skill-icon { background: var(--accent); }
 /* fixed-width label column so meters line up across rows (fits the longest label in en + nl) */
 .skill-level .dim { display: inline-block; min-width: 14ch; }
 
@@ -261,4 +277,10 @@ ul.skills li {
 .meter { display: inline-flex; gap: 3px; }
 .meter .block { width: 0.75rem; height: 0.75rem; border: 2px solid var(--border); background: transparent; }
 .meter .block.on { border-color: var(--accent); background: var(--accent); }
+/* "learning": striped fill = in progress */
+.meter .block.on.wip {
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 2px, transparent 2px 4px);
+}
+.legend { gap: var(--space-2) var(--space-4); }
+.legend-item { display: inline-flex; align-items: center; gap: var(--space-2); }
 .tags { gap: var(--space-2); margin-top: var(--space-3); }

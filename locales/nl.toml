@@ -39,12 +39,13 @@ tags = "Tags"
 [skills]
 page_title = "Vaardigheden"
 heading = "Vaardigheden & technologieën"
-intro = "Wat ik ken en hoe goed. De meter toont mijn zelfvertrouwen, geen formele beoordeling."
+intro = "Wat ik ken en hoe goed."
 legend = "Legenda"
 
 [skills.levels]
 confident = "Zelfverzekerd"
 comfortable = "Vertrouwd"
+beginner = "Basiskennis"
 learning = "Aan het leren"
 
 [about]

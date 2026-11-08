@@ -39,12 +39,13 @@ tags = "Tags"
 [skills]
 page_title = "Skills"
 heading = "Skills & technologies"
-intro = "What I know and how well. The meter shows my confidence, not a formal rating."
+intro = "What I know and how well."
 legend = "Legend"
 
 [skills.levels]
 confident = "Confident"
 comfortable = "Comfortable"
+beginner = "Basics"
 learning = "Learning"
 
 [about]

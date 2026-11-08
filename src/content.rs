@@ -24,14 +24,19 @@ pub struct Project {
 pub enum Level {
     Confident,
     Comfortable,
+    /// Basic knowledge, not actively learning it right now.
+    Beginner,
     Learning,
 }
 
 impl Level {
+    pub const ALL: [Level; 4] = [Level::Confident, Level::Comfortable, Level::Beginner, Level::Learning];
+
     pub fn key(self) -> &'static str {
         match self {
             Level::Confident => "confident",
             Level::Comfortable => "comfortable",
+            Level::Beginner => "beginner",
             Level::Learning => "learning",
         }
     }
@@ -41,6 +46,7 @@ impl Level {
         match self {
             Level::Confident => 3,
             Level::Comfortable => 2,
+            Level::Beginner => 1,
             Level::Learning => 1,
         }
     }
@@ -53,6 +59,8 @@ pub struct Skill {
     pub name: Option<String>,
     pub id: Option<String>,
     pub level: Level,
+    /// Icon file name (without `.svg`) in `static/icons/`, drawn in the text color.
+    pub icon: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -61,6 +69,10 @@ pub struct Category {
     /// Show this category in the home page's "What I work with" block (default: true).
     #[serde(default = "yes")]
     pub home: bool,
+    /// Show the level label next to the meter (default: true). When false, the label
+    /// is still available as the meter's tooltip and accessible name.
+    #[serde(default = "yes")]
+    pub labels: bool,
     pub items: Vec<Skill>,
 }
 
@@ -94,6 +106,12 @@ pub fn load() {
         for s in &cat.items {
             if s.name.is_some() == s.id.is_some() {
                 panic!("content/skills.toml: each item in `{}` needs exactly one of `name` or `id`", cat.id);
+            }
+            if let Some(icon) = &s.icon {
+                let path = std::path::Path::new("static/icons").join(format!("{icon}.svg"));
+                if !path.is_file() {
+                    panic!("content/skills.toml: icon `{icon}` not found ({})", path.display());
+                }
             }
         }
     }
