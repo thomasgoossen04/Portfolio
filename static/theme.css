@@ -101,6 +101,8 @@ html { font-size: 16px; -webkit-font-smoothing: none; }
 
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-body);
   line-height: 1.6;
   color: var(--fg);
@@ -178,7 +180,7 @@ img { max-width: 100%; image-rendering: pixelated; display: block; }
   padding: var(--space-4);
   box-shadow: var(--shadow-dim);
 }
-a.card, .card.interactive { display: block; color: inherit; text-decoration: none; }
+a.card, .card.interactive { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
 a.card:hover, .card.interactive:hover {
   background: var(--bg-raised);
   color: inherit;
@@ -187,6 +189,23 @@ a.card:hover, .card.interactive:hover {
   transform: translate(-2px, -2px);
 }
 .card > :last-child { margin-bottom: 0; }
+
+/* timeline (about page) */
+.timeline { list-style: none; padding: 0 0 0 var(--space-4); border-left: var(--border-w) solid var(--border); }
+.timeline-item { position: relative; padding-bottom: var(--space-4); }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-4) - var(--border-w) / 2 - 0.4rem + var(--border-w) / 2);
+  top: 0.35rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--accent);
+}
+.timeline-item.nested { margin-left: var(--space-4); }
+.timeline-item.nested::before { background: var(--bg); border: var(--border-w) solid var(--accent); box-sizing: border-box; left: calc(-2 * var(--space-4) - 0.4rem + var(--border-w) / 2); }
+.timeline-item h3, .timeline-item p { margin-bottom: 0; }
 
 .btn {
   display: inline-block;
@@ -227,6 +246,7 @@ nav.nav .lang-current { color: var(--accent); font-family: var(--font-heading); 
 nav.nav a.lang-other { color: var(--fg-dim); }
 nav.nav a.lang-other:hover, nav.nav a.lang-other:focus-visible { color: var(--on-accent); }
 
+main.container { flex: 1 0 auto; }
 footer.footer { border-top: var(--border-w) dashed var(--border); color: var(--fg-dim); }
 
 /* --- page-specific --- */
@@ -283,4 +303,4 @@ ul.skills li:hover .skill-icon { background: var(--accent); }
 }
 .legend { gap: var(--space-2) var(--space-4); }
 .legend-item { display: inline-flex; align-items: center; gap: var(--space-2); }
-.tags { gap: var(--space-2); margin-top: var(--space-3); }
+.tags { gap: var(--space-2); margin-top: auto; }  /* pinned to the card bottom; the summary's own margin keeps the gap */

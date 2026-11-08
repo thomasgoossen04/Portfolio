@@ -30,10 +30,25 @@ technologies = "Technologies"
 [about]
 intro = "TODO: A short personal introduction: who you are, where you're from, what drives you."
 study = "TODO: Bachelor Computing Science at <university>, expected graduation <year>. Thesis topic, relevant courses."
+cv_link = "See my CV for the full timeline →"
 interests = "TODO: What you like outside of coursework: open source, Neovim, Rust, ..."
 
+[about.timeline.bsc]
+period = "<start> – <year>"
+title = "TODO: Degree"
+place = "<university>"
+
+[about.timeline.exchange]
+period = "<period>"
+title = "TODO: Exchange or other step"
+place = "<university>, <country>"
+
+[about.timeline.vwo]
+period = "<start> – <year>"
+title = "TODO: Previous education"
+place = "<school>"
+
 [cv]
-education_item = "TODO: BSc Computing Science, <university> (<start> – <year>)"
 experience_item = "TODO: Role, company, period, one line about what you did"
 
 [contact]

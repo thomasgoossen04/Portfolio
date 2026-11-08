@@ -6,6 +6,21 @@ use crate::i18n::{I18n, Lang};
 
 /// Wrap page content in the shared document shell (head, theme, nav, footer).
 pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
+    // Release builds are not public yet: every page shows an "under construction" card.
+    // Remove this switch (use `content` always) to launch the site.
+    let live = cfg!(debug_assertions);
+    let content = if live {
+        content
+    } else {
+        html! {
+            div.stack {
+                div.card {
+                    h1 { (i18n.t("construction.title")) }
+                    p { (i18n.t("construction.text")) }
+                }
+            }
+        }
+    };
     html! {
         (DOCTYPE)
         html lang=(i18n.lang.code()) {
@@ -19,9 +34,11 @@ pub fn page(i18n: I18n, title: &str, content: Markup) -> Markup {
             body {
                 nav.nav {
                     div.container.row {
-                        a href="/" { (i18n.t("nav.home")) }
-                        @for (href, key) in [("/projects", "nav.projects"), ("/skills", "nav.skills"), ("/about", "nav.about"), ("/cv", "nav.cv"), ("/contact", "nav.contact")] {
-                            a href=(href) { (i18n.t(key)) }
+                        @if live {
+                            a href="/" { (i18n.t("nav.home")) }
+                            @for (href, key) in [("/projects", "nav.projects"), ("/skills", "nav.skills"), ("/about", "nav.about"), ("/cv", "nav.cv"), ("/contact", "nav.contact")] {
+                                a href=(href) { (i18n.t(key)) }
+                            }
                         }
                         span.dim.push-right { (i18n.t("nav.language")) ":" }
                         @for lang in Lang::ALL {

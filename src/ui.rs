@@ -92,3 +92,18 @@ pub fn skills_legend(i18n: I18n) -> Markup {
         }
     }
 }
+
+/// Education timeline (about and CV pages); text comes from `about.timeline.*`.
+pub fn education_timeline(i18n: I18n) -> Markup {
+    html! {
+        ol.timeline {
+            @for key in ["bsc", "exchange", "vwo"] {
+                li class={ "timeline-item" @if key == "exchange" { " nested" } } {
+                    span.dim { (i18n.t(&format!("about.timeline.{key}.period"))) }
+                    h3 { (i18n.t(&format!("about.timeline.{key}.title"))) }
+                    p { (i18n.t(&format!("about.timeline.{key}.place"))) }
+                }
+            }
+        }
+    }
+}

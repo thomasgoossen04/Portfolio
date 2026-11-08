@@ -95,6 +95,7 @@ fn about(i18n: I18n) -> Markup {
             p { (i18n.t("about.intro")) }
             h2 { (i18n.t("about.study_heading")) }
             p { (i18n.t("about.study")) }
+            a href="/cv" { (i18n.t("about.cv_link")) }
             h2 { (i18n.t("about.interests_heading")) }
             p { (i18n.t("about.interests")) }
         }
@@ -108,7 +109,7 @@ fn cv(i18n: I18n) -> Markup {
             h1 { (i18n.t("cv.heading")) }
             // TODO: drop a PDF in static/ and link it here.
             h2 { (i18n.t("cv.education")) }
-            div.card { (i18n.t("cv.education_item")) }
+            (ui::education_timeline(i18n))
             h2 { (i18n.t("cv.experience")) }
             div.card { (i18n.t("cv.experience_item")) }
         }

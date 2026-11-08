@@ -11,6 +11,10 @@ cv = "CV"
 contact = "Contact"
 language = "Taal"
 
+[construction]
+title = "In aanbouw"
+text = "Deze site is nog in aanbouw. Kom later nog eens terug!"
+
 [footer]
 copyright = "© {year} {name}"
 

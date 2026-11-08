@@ -11,6 +11,10 @@ cv = "CV"
 contact = "Contact"
 language = "Language"
 
+[construction]
+title = "Under construction"
+text = "This site is still under construction. Check back later!"
+
 [footer]
 copyright = "© {year} {name}"
 

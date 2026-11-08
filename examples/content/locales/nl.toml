@@ -30,10 +30,25 @@ technologies = "Technologieën"
 [about]
 intro = "TODO: Een korte persoonlijke introductie: wie je bent, waar je vandaan komt, wat je drijft."
 study = "TODO: Bachelor Computing Science aan <universiteit>, verwachte afstudeerdatum <jaar>. Scriptieonderwerp, relevante vakken."
+cv_link = "Bekijk mijn CV voor het volledige overzicht →"
 interests = "TODO: Wat je naast je studie leuk vindt: open source, Neovim, Rust, ..."
 
+[about.timeline.bsc]
+period = "<start> – <year>"
+title = "TODO: Degree"
+place = "<university>"
+
+[about.timeline.exchange]
+period = "<period>"
+title = "TODO: Exchange or other step"
+place = "<university>, <country>"
+
+[about.timeline.vwo]
+period = "<start> – <year>"
+title = "TODO: Previous education"
+place = "<school>"
+
 [cv]
-education_item = "TODO: BSc Computing Science, <universiteit> (<start> – <jaar>)"
 experience_item = "TODO: Functie, bedrijf, periode, één regel over wat je deed"
 
 [contact]
